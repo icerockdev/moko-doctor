@@ -1,4 +1,6 @@
 # !bin/bash
+
+installed_correctly=1
 #######
 ## CHECK INSTRUMENTS:
 ########
@@ -10,6 +12,7 @@ then
     printf "\t[+] Git is installed.\n"
 else 
     printf "\t[-] Git is not installed!\n"
+    installed_correctly=0
 fi
 
 xcode_found=$(type xcode-select | grep "not found")
@@ -18,6 +21,7 @@ then
     printf "\t[+] Xcode is installed.\n"
 else 
     printf "\t[-] Xcode is not installed!\n"
+    installed_correctly=0
 fi
 
 xcode_found=$(type xcodebuild | grep "not found")
@@ -26,12 +30,14 @@ then
     printf "\t[+] Xcode Comand Line is installed.\n"
 else
     printf "\t[-] Xcode Comand Line is not installed!\n"
+    installed_correctly=0
 fi
 
 as_found=$(mdfind "Android Studio.app" "kind:app")
 if [ -z "$as_found" ];
 then
     printf "\t[-] Android Studio is not installed!\n"
+    installed_correctly=0
 else
     printf "\t[+] Android Studio is installed.\n"
 fi
@@ -43,12 +49,14 @@ if [ $JAVA_HOME ]; then
     printf "\t[+] "JAVA_HOME" variable is set.\n"
 else
     printf "\t[-] "JAVA_HOME" variable is not set.\n"
+    installed_correctly=0
 fi
 
 if [ $ANDROID_SDK_ROOT ]; then
     printf "\t[+] "ANDROID_SDK_ROOT" variable is set.\n"
 else
     printf "\t[-] "ANDROID_SDK_ROOT" variable is not set.\n"
+    installed_correctly=0
 fi
 
 #######
@@ -67,6 +75,7 @@ if [ -e $xcode_kotlin_plugin_path ]; then
     printf "\t[+] Xcode Kotlin plugin is installed.\n"
 else
     printf "\t[-] Xcode Kotlin plugin is not installed.\n"
+    installed_correctly=0
 fi
 
 #######
@@ -80,12 +89,13 @@ count_pref=$(mdfind "extensions" kind:folder | grep "Android" | sed 's/ *\/exten
 if [ "$count_pref" -ge 2 ]; then
     printf "\nYou have several ($count_pref) Android Studio settings: \n"
     mdfind "extensions" kind:folder | grep "Android" | sed 's/ *\/extensions//'
-    printf "\n[!] To work correctly, leave one!\n"
+    printf "[!] To work correctly, leave one!\n\n"
 fi
 
 gradle_skip_task_list=$(mdfind "SKIP_GRADLE_TASKS_LIST" | grep "options")
 if [ -z "$gradle_skip_task_list" ]; then
     printf "\t[-] Android Studio: \`Do not build gradle task list during Gradle sync\` is enable!\n"
+    installed_correctly=0
 else
     printf "\t[+] Android Studio: \`Do not build gradle task list during Gradle sync\` is disable!\n"
 fi
@@ -110,6 +120,7 @@ then
     printf "\t[+] Android Studio JDK is set.\n"
 else
     printf "\t[-] Android Studio JDK is not set!\n"
+    installed_correctly=0
 fi
 
 #######
@@ -123,9 +134,15 @@ then
     printf "\t[+] Cocoa Pods is installed.\n"
 else 
     printf "\t[-] Cocoa Pods is not installed!\n"
+    installed_correctly=0
 fi
 
-
+if [ $installed_correctly -eq 1 ];
+then
+    printf "\nAll parameters are set correctly! =)\n"
+else
+    printf "\n Something is installed incorrectly, look https://codelabs.kmp.icerock.dev/codelabs/kmm-icerock-onboarding-1-ru/index.html#0\n"
+fi
 
 
 
