@@ -84,7 +84,7 @@ if [ "$count_pref" -ge 2 ]; then
 fi
 
 gradle_skip_task_list=$(mdfind "SKIP_GRADLE_TASKS_LIST" | grep "options")
-if [ -z $gradle_skip_task_list ]; then
+if [ -z "$gradle_skip_task_list" ]; then
     printf "\t[-] Android Studio: \`Do not build gradle task list during Gradle sync\` is enable!\n"
 else
     printf "\t[+] Android Studio: \`Do not build gradle task list during Gradle sync\` is disable!\n"
