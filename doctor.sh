@@ -103,7 +103,7 @@ fi
 jdk_tables=$(mdfind "jdk" | grep "table" | grep "Android")
 jdk_count=$(mdfind "jdk" | grep "table" | grep "Android" | wc -l | sed 's/^[[:blank:]]*//g')
 studio_jdk_set=0
-if [ "$jdk_tables" ]; then 
+if [ "$jdk_tables" ] && [ "$JAVA_HOME" ]; then 
     for (( i = 1; i <= jdk_count; i++))
     do
         file=$(``mdfind "jdk" | grep "table" | grep "Android" | sed -n "${i}p" )
@@ -113,19 +113,16 @@ if [ "$jdk_tables" ]; then
         then
             studio_jdk_set=1
         fi
-        # echo "sjs : $studio_jdk_set"
 
     done
-    if [ $studio_jdk_set -eq 1 ];
+fi
+if [ $studio_jdk_set -eq 1 ];
     then
         printf "\t[+] Android Studio JDK is set.\n"
     else
         printf "\t[-] Android Studio JDK is not set!\n"
         installed_correctly=0
     fi
-    else 
-        printf "KEK"
-fi
 
 #######
 ## CHECK COCOA PODS:
