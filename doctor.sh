@@ -76,10 +76,10 @@ fi
 printf "\nChecking Android Studio Configuration: \n"
 
 prefs=$(mdfind "extensions" kind:folder | grep "Android" | sed 's/ *\/extensions//')
-count_pref=$(echo $prefs | wc -l | sed 's/^[[:blank:]]*//g')
+count_pref=$(mdfind "extensions" kind:folder | grep "Android" | sed 's/ *\/extensions//' | wc -l | sed 's/^[[:blank:]]*//g')
 if [ "$count_pref" -ge 2 ]; then
     printf "\nYou have several ($count_pref) Android Studio settings: \n"
-    echo $prefs
+    mdfind "extensions" kind:folder | grep "Android" | sed 's/ *\/extensions//'
     printf "\n[!] To work correctly, leave one!\n"
 fi
 
