@@ -88,7 +88,7 @@ prefs=$(mdfind "extensions" kind:folder | grep "Android" | sed 's/ *\/extensions
 count_pref=$(mdfind "extensions" kind:folder | grep "Android" | sed 's/ *\/extensions//' | wc -l | sed 's/^[[:blank:]]*//g')
 if [ "$count_pref" -ge 2 ]; then
     printf "\nYou have several ($count_pref) Android Studio settings: \n"
-    mdfind "extensions" kind:folder | grep "Android" | sed 's/ *\/extensions//'
+    mdfind "extensions" kind:folder | grep "Android" | grep "Google" | sed 's/ *\/extensions//' | sed 's/^/ - /'
     printf "[!] To work correctly, leave one!\n\n"
 fi
 
@@ -103,24 +103,28 @@ fi
 jdk_tables=$(mdfind "jdk" | grep "table" | grep "Android")
 jdk_count=$(mdfind "jdk" | grep "table" | grep "Android" | wc -l | sed 's/^[[:blank:]]*//g')
 studio_jdk_set=0
-for (( i = 1; i <= jdk_count; i++))
-do
-    file=$(``mdfind "jdk" | grep "table" | grep "Android" | sed -n "${i}p" )
-    # echo "$i => $file"
-    jdk_out=$(grep $JAVA_HOME "$file")
-    if [ "$jdk_out" ];
-    then
-        studio_jdk_set=1
-    fi
-    # echo "sjs : $studio_jdk_set"
+if [ "$jdk_tables" ]; then 
+    for (( i = 1; i <= jdk_count; i++))
+    do
+        file=$(``mdfind "jdk" | grep "table" | grep "Android" | sed -n "${i}p" )
+        # echo "$i => $file"
+        jdk_out=$(grep $JAVA_HOME "$file")
+        if [ "$jdk_out" ];
+        then
+            studio_jdk_set=1
+        fi
+        # echo "sjs : $studio_jdk_set"
 
-done
-if [ $studio_jdk_set -eq 1 ];
-then
-    printf "\t[+] Android Studio JDK is set.\n"
-else
-    printf "\t[-] Android Studio JDK is not set!\n"
-    installed_correctly=0
+    done
+    if [ $studio_jdk_set -eq 1 ];
+    then
+        printf "\t[+] Android Studio JDK is set.\n"
+    else
+        printf "\t[-] Android Studio JDK is not set!\n"
+        installed_correctly=0
+    fi
+    else 
+        printf "KEK"
 fi
 
 #######
