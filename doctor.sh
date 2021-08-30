@@ -128,7 +128,7 @@ if [ $studio_jdk_set -eq 1 ];
 ## CHECK COCOA PODS:
 ########
 
-printf "Checking COCOA: \n"
+printf "\nChecking COCOA: \n"
 pod_found=$(type pod | grep "not found")
 if [ -z "$pod_found" ];
 then
@@ -138,12 +138,25 @@ else
     installed_correctly=0
 fi
 
+#######
+## CHECK XCODE ENVIRONMENT:
+########
+xcode_setup_env_path=~/.moko-doctor/sh/setup_xcode_environment.sh
+xcode_setup_env_local_path=./setup_xcode_environment.sh
+if [ -e "$xcode_setup_env_path" ] || [ -e "$xcode_setup_env_local_path" ]; then
+    printf "\nChecking Xcode Environment: \n"
+    if [ -e "$xcode_setup_env_path" ]; then
+        sh $xcode_setup_env_path
+    elif [ -e "$xcode_setup_env_local_path" ]; then
+        sh $xcode_setup_env_local_path
+    fi
+fi
+
+
+
 if [ $installed_correctly -eq 1 ];
 then
     printf "\nAll parameters are set correctly! =)\n"
 else
     printf "\n Something is installed incorrectly, look https://codelabs.kmp.icerock.dev/codelabs/kmm-icerock-onboarding-1-ru/index.html#0\n"
 fi
-
-
-

@@ -44,7 +44,7 @@ echo "To make the changes take effect, reboot the system!"
 out=$(launchctl list | grep $launch_name)
 if [ -f $file_path ]
 then
-    echo "LaunchAgent is installed:"
+    echo "[+] LaunchAgent is installed:"
     echo $out
     current_java=`(cat $file_path | grep 'jdk' | sed 's/<string>*//' | sed 's/ *<\/string>/ /' | sed 's/\t//' | sed 's/\t//' | sed 's/ *$//')`
     echo " - JAVA_HOME: $current_java"
@@ -65,6 +65,7 @@ then
     fi
 
 else
+    echo "[-] LaunchAgent is not installed:"
     java_path=""
     android_sdk_path=""
     if [ $JAVA_HOME ]
