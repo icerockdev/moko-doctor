@@ -19,6 +19,12 @@ Clone the repository for yourself and run the script:
 ./doctor.sh
 ```
 
+or you can install it with the command:
+
+```bash
+/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/icerockdev/moko-doctor/main/install_doctor.sh)"
+```
+
 ## How do we set up the environment?
 
 You can take a short lesson on setting up the environment [here](https://codelabs.kmp.icerock.dev/codelabs/kmm-icerock-onboarding-1-ru/index.html#1).
