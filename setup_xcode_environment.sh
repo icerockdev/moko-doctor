@@ -52,32 +52,39 @@ then
     echo " - ANDROID_SDK_ROOT: $current_sdk"
 
     if [[ "$JAVA_HOME" != "$current_java" ]] || [[ "$ANDROID_SDK_ROOT" != "$current_sdk" ]]; then
-        while true; do
-        read -p "New paths found, replace? [y/N] : " yn
-        case $yn in
-            [Yy]* )
-                (replace_paths $file_path $JAVA_HOME $ANDROID_SDK_ROOT);
-                exit;;
-            [Nn]* ) exit;;
-            * ) echo "Please answer y/n.";;
-        esac
-        done
+        if [ -d "$JAVA_HOME" ] && [ -d "$ANDROID_SDK_ROOT" ]; then
+            while true; do
+            read -p "New paths found, replace? [y/N] : " yn
+            case $yn in
+                [Yy]* )
+                    (replace_paths $file_path $JAVA_HOME $ANDROID_SDK_ROOT);
+                    exit;;
+                [Nn]* ) exit;;
+                * ) echo "Please answer y/n.";;
+            esac
+            done
+        else 
+            if ! [ -d "$JAVA_HOME" ]; then
+                printf "\nThe directory specified in the JAVA_HOME variable does not exist!\n"
+            fi
+            if ! [ -d "$ANDROID_SDK_ROOT" ]; then
+                printf "\nThe directory specified in the ANDROID_SDK_ROOT variable does not exist!\n"
+            fi
+        fi
     fi
 
 else
     echo "[-] LaunchAgent is not installed:"
     java_path=""
     android_sdk_path=""
-    if [ $JAVA_HOME ]
-    then
+    if [ $JAVA_HOME ] && [ -d "$JAVA_HOME" ]; then
         java_path=$JAVA_HOME
     else
         echo "Enter JAVA_HOME path: "
         read java_path
     fi
 
-    if [ $ANDROID_SDK_ROOT ]
-    then
+    if [ $ANDROID_SDK_ROOT ] && [ -d "$ANDROID_SDK_ROOT"]; then
         android_sdk_path=$ANDROID_SDK_ROOT
     else
         echo "Enter ANDROID_SDK_ROOT path: "

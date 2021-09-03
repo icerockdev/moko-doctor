@@ -44,16 +44,28 @@ fi
 #######
 ## CHECK ENVIRONMENT:
 ########
+incorrect_java_path=0
+incorrect_sdk_path=0
 printf "\nChecking environment variables: \n"
 if [ $JAVA_HOME ]; then
-    printf "\t[+] "JAVA_HOME" variable is set.\n"
+    if [ -d "$JAVA_HOME" ]; then
+        printf "\t[+] "JAVA_HOME" variable is set.\n"
+    else
+        incorrect_java_path=1
+        printf "\t[-] "JAVA_HOME" variable is set, but the specified directory does not exist.\n"
+    fi
 else
     printf "\t[-] "JAVA_HOME" variable is not set.\n"
     installed_correctly=0
 fi
 
 if [ $ANDROID_SDK_ROOT ]; then
-    printf "\t[+] "ANDROID_SDK_ROOT" variable is set.\n"
+    if [ -d "$ANDROID_SDK_ROOT" ]; then
+        printf "\t[+] "ANDROID_SDK_ROOT" variable is set.\n"
+    else
+        incorrect_sdk_path=1
+        printf "\t[-] "ANDROID_SDK_ROOT" variable is set, but the specified directory does not exist.\n"
+    fi
 else
     printf "\t[-] "ANDROID_SDK_ROOT" variable is not set.\n"
     installed_correctly=0
@@ -118,9 +130,9 @@ if [ "$jdk_tables" ] && [ "$JAVA_HOME" ]; then
 fi
 if [ $studio_jdk_set -eq 1 ];
     then
-        printf "\t[+] Android Studio JDK is set.\n"
+        printf "\t[+] Android Studio JDK is set! It matches JAVA_HOME.\n"
     else
-        printf "\t[-] Android Studio JDK is not set!\n"
+        printf "\t[-] Android Studio JDK is not installed or does not match JAVA_HOME!\n"
         installed_correctly=0
     fi
 
@@ -145,10 +157,10 @@ xcode_setup_env_path=~/.moko-doctor/sh/setup_xcode_environment.sh
 xcode_setup_env_local_path=./setup_xcode_environment.sh
 if [ -e "$xcode_setup_env_path" ] || [ -e "$xcode_setup_env_local_path" ]; then
     printf "\nChecking Xcode Environment: \n"
-    if [ -e "$xcode_setup_env_path" ]; then
-        sh $xcode_setup_env_path
-    elif [ -e "$xcode_setup_env_local_path" ]; then
+    if [ -e "$xcode_setup_env_local_path" ]; then
         sh $xcode_setup_env_local_path
+    elif [ -e "$xcode_setup_env_path" ]; then
+        sh $xcode_setup_env_path
     fi
 fi
 
@@ -158,5 +170,5 @@ if [ $installed_correctly -eq 1 ];
 then
     printf "\nAll parameters are set correctly! =)\n"
 else
-    printf "\n Something is installed incorrectly, look https://codelabs.kmp.icerock.dev/codelabs/kmm-icerock-onboarding-1-ru/index.html#0\n"
+    printf "\n Something is installed incorrectly, look https://codelabs.kmp.icerock.dev/codelabs/kmm-icerock-onboarding-1-ru/index.html\n"
 fi
