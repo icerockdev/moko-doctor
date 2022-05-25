@@ -42,7 +42,13 @@ In order for Xcode to see the *JAVA_HOME* and *ANDROID_SDK_ROOT* variables that 
 ./setup_xcode_environment.sh
 ```
 
-This script passes the *JAVA_HOME* and *ANDROID_SDK_ROOT* variables specified in your environment (in .zshrc or .bash-profile) to the *Xcode* environment , which is launched when the project is built.
+This script passes:
+- *JAVA_HOME* 
+- *ANDROID_SDK_ROOT* 
+- *GRADLE_USER_HOME*
+- *KONAN_DATA_DIR*
+
+variables specified in your environment (in .zshrc or .bash-profile) to the *Xcode* environment , which is launched when the project is built.
 
 After rebooting the system, it can check this, it is enough to enter a couple of lines of build phases.
 
