@@ -1,4 +1,4 @@
-#!bin/bash
+#!/bin/bash
 
 # # Path to save .plist file
 file_path=~/Library/LaunchAgents/setenv.MPP_ENV.plist
