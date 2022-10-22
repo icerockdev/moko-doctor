@@ -16,7 +16,7 @@ function replace_paths {
 	echo "ANDROID_SDK_ROOT ---> $3"
 	echo "GRADLE_USER_HOME ---> $4"
 	echo "KONAN_DATA_DIR ---> $5"
-	cat >$1 <<EOF
+	cat >"$1" <<EOF
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
@@ -55,7 +55,7 @@ EOF
 out=$(launchctl list | grep $launch_name)
 if [ -f $file_path ]; then
 	echo "[+] LaunchAgent is installed:"
-	echo $out
+	echo "$out"
 	current_java=$( (cat $file_path | grep 'jdk' | sed 's/<string>*//' | sed 's/ *<\/string>/ /' | sed 's/\t//' | sed 's/\t//' | sed 's/ *$//'))
 	echo " - JAVA_HOME: $current_java"
 	current_sdk=$( (cat $file_path | grep 'sdk' | sed 's/<string>*//' | sed 's/ *<\/string>/ /' | sed 's/\t//' | sed 's/\t//' | sed 's/ *$//'))
@@ -71,7 +71,7 @@ if [ -f $file_path ]; then
 				read -p "New paths found, replace? [y/N] : " yn
 				case $yn in
 				[Yy]*)
-					(replace_paths $file_path $JAVA_HOME $ANDROID_SDK_ROOT $GRADLE_USER_HOME $KONAN_DATA_DIR)
+					(replace_paths "$file_path" "$JAVA_HOME" "$ANDROID_SDK_ROOT" "$GRADLE_USER_HOME" "$KONAN_DATA_DIR")
 					exit
 					;;
 				[Nn]*) exit ;;
@@ -100,29 +100,29 @@ else
 	android_sdk_path=""
 	gradle_user_home=""
 	konan_data_dir=""
-	if [ $JAVA_HOME ] && [ -d "$JAVA_HOME" ]; then
+	if [ "$JAVA_HOME" ] && [ -d "$JAVA_HOME" ]; then
 		java_path=$JAVA_HOME
 	else
 		echo "Enter JAVA_HOME path: "
 		read java_path
 	fi
-	if [ $ANDROID_SDK_ROOT ] && [ -d "$ANDROID_SDK_ROOT" ]; then
+	if [ "$ANDROID_SDK_ROOT" ] && [ -d "$ANDROID_SDK_ROOT" ]; then
 		android_sdk_path=$ANDROID_SDK_ROOT
 	else
 		echo "Enter ANDROID_SDK_ROOT path: "
 		read android_sdk_path
 	fi
-	if [ $GRADLE_USER_HOME ] && [ -d "$GRADLE_USER_HOME" ]; then
+	if [ "$GRADLE_USER_HOME" ] && [ -d "$GRADLE_USER_HOME" ]; then
 		gradle_user_home=$GRADLE_USER_HOME
 	else
 		echo "Enter GRADLE_USER_HOME path: "
 		read gradle_user_home
 	fi
-	if [ $KONAN_DATA_DIR ] && [ -d "$KONAN_DATA_DIR" ]; then
+	if [ "$KONAN_DATA_DIR" ] && [ -d "$KONAN_DATA_DIR" ]; then
 		konan_data_dir=$KONAN_DATA_DIR
 	else
 		echo "Enter KONAN_DATA_DIR path: "
 		read konan_data_dir
 	fi
-	replace_paths $file_path $java_path $android_sdk_path $gradle_user_home $konan_data_dir
+	replace_paths "$file_path" "$java_path" "$android_sdk_path" "$gradle_user_home" "$konan_data_dir"
 fi
