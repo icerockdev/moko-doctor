@@ -63,7 +63,7 @@ then
                 * ) echo "Please answer y/n.";;
             esac
             done
-        else 
+        else
             if ! [ -d "$JAVA_HOME" ]; then
                 printf "\nThe directory specified in the JAVA_HOME variable does not exist!\n"
             fi
