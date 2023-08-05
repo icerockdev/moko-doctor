@@ -57,7 +57,7 @@ then
             read -p "New paths found, replace? [y/N] : " yn
             case $yn in
                 [Yy]* )
-                    (replace_paths $file_path $JAVA_HOME $ANDROID_SDK_ROOT);
+                    (replace_paths "$file_path" "$JAVA_HOME" "$ANDROID_SDK_ROOT");
                     exit;;
                 [Nn]* ) exit;;
                 * ) echo "Please answer y/n.";;
@@ -78,18 +78,18 @@ else
     java_path=""
     android_sdk_path=""
     if [ $JAVA_HOME ] && [ -d "$JAVA_HOME" ]; then
-        java_path=$JAVA_HOME
+        java_path="$JAVA_HOME"
     else
         echo "Enter JAVA_HOME path: "
         read java_path
     fi
 
     if [ $ANDROID_SDK_ROOT ] && [ -d "$ANDROID_SDK_ROOT"]; then
-        android_sdk_path=$ANDROID_SDK_ROOT
+        android_sdk_path="$ANDROID_SDK_ROOT"
     else
         echo "Enter ANDROID_SDK_ROOT path: "
         read android_sdk_path
     fi
 
-    replace_paths $file_path $java_path $android_sdk_path;
+    replace_paths "$file_path" "$java_path" "$android_sdk_path";
 fi
