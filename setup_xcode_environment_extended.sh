@@ -101,25 +101,25 @@ else
 	gradle_user_home=""
 	konan_data_dir=""
 	if [ "$JAVA_HOME" ] && [ -d "$JAVA_HOME" ]; then
-		java_path=$JAVA_HOME
+		java_path="$JAVA_HOME"
 	else
 		echo "Enter JAVA_HOME path: "
 		read java_path
 	fi
 	if [ "$ANDROID_SDK_ROOT" ] && [ -d "$ANDROID_SDK_ROOT" ]; then
-		android_sdk_path=$ANDROID_SDK_ROOT
+		android_sdk_path="$ANDROID_SDK_ROOT"
 	else
 		echo "Enter ANDROID_SDK_ROOT path: "
 		read android_sdk_path
 	fi
 	if [ "$GRADLE_USER_HOME" ] && [ -d "$GRADLE_USER_HOME" ]; then
-		gradle_user_home=$GRADLE_USER_HOME
+		gradle_user_home="$GRADLE_USER_HOME"
 	else
 		echo "Enter GRADLE_USER_HOME path: "
 		read gradle_user_home
 	fi
 	if [ "$KONAN_DATA_DIR" ] && [ -d "$KONAN_DATA_DIR" ]; then
-		konan_data_dir=$KONAN_DATA_DIR
+		konan_data_dir="$KONAN_DATA_DIR"
 	else
 		echo "Enter KONAN_DATA_DIR path: "
 		read konan_data_dir
