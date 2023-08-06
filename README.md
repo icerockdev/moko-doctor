@@ -1,6 +1,9 @@
 # Mobile Kotlin doctor
 This is a script for KMM developers that allows you to check whether your working environment is configured. 
 
+# DEPRECATION ALERT
+Kotlin already have own doctor application - [kdoctor](https://github.com/Kotlin/kdoctor), so please use kdoctor instead of moko-doctor.
+
 ## What does the *doctor* check?
 - Is *Git* installed
 - Is *XCode* / *Xcode Command Line* installed
